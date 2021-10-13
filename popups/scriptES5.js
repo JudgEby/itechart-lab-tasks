@@ -14,34 +14,16 @@ function PopUp(container) {
     }
 
     newElement.className = [].slice.call(arguments).slice(2).join(" ");
-    // var a = arrayOfClasses.slice(2);
-    //
-    // newElement.className = a.join(" ");
     return newElement;
   };
 }
-//
-// PopUp.prototype._greateNewElement = function (tagName, id) {
-//   var newElement = document.createElement(tagName);
-//   if (id) {
-//     newElement.id = id;
-//   }
-//
-//   var arrayOfClasses = new Array(arguments).slice(2);
-//
-//   newElement.className = arrayOfClasses.join(" ");
-//   return newElement;
-// };
-//
-// console.dir(new PopUp());
 
-function ToastNotifications(container, message, timeToShow) {
+function ToastNotifications(container, popUpType) {
   PopUp.apply(this, arguments);
-  this.message = message || "Something went wrong";
-  this.timeToShow = timeToShow || 5000;
+  this.popUpType = popUpType;
 }
 
-ToastNotifications.prototype._buildPopUp = function (popUpType) {
+ToastNotifications.prototype._buildPopUp = function (popUpType, message) {
   var validPopUpType = popUpType;
   if (
     popUpType !== "error" &&
@@ -50,6 +32,8 @@ ToastNotifications.prototype._buildPopUp = function (popUpType) {
   ) {
     validPopUpType = "info";
   }
+
+  var popUpMessage = message || "Something went wrong";
 
   var popupWrapper = this._greateNewElement(
     "div",
@@ -62,7 +46,7 @@ ToastNotifications.prototype._buildPopUp = function (popUpType) {
   popupWrapper.appendChild(icon);
 
   var popup = this._greateNewElement("span");
-  popup.innerText = this.message;
+  popup.innerText = popUpMessage;
   popupWrapper.appendChild(popup);
 
   var closeButton = this._greateNewElement("div", undefined, "cl-btn");
@@ -71,37 +55,20 @@ ToastNotifications.prototype._buildPopUp = function (popUpType) {
   });
   popupWrapper.appendChild(closeButton);
 
-  var popupBlock = document.getElementById("popup-block");
-
-  if (popupBlock) {
-    popupBlock.appendChild(popupWrapper);
-  } else {
-    popupBlock = this._greateNewElement("div", "popup-block", "popup-block");
-    popupBlock.appendChild(popupWrapper);
-    this.container.appendChild(popupBlock);
-  }
+  return popupWrapper;
 };
 
-ToastNotifications.prototype.show = function () {
-  var popupWrapper = this._greateNewElement(
-    "div",
-    undefined,
-    "popup-wrapper",
-    "error"
-  );
+ToastNotifications.prototype._runTimer = function (popUpNode, timeToShow) {
+  var timeout = setTimeout(function () {
+    popUpNode.remove();
+    clearTimeout(timeout);
+  }, timeToShow);
+};
 
-  var icon = this._greateNewElement("div", undefined, "icon", "error");
-  popupWrapper.appendChild(icon);
+ToastNotifications.prototype.show = function (message, time) {
+  var timeToShow = time || 5000;
 
-  var popup = this._greateNewElement("span");
-  popup.innerText = this.message;
-  popupWrapper.appendChild(popup);
-
-  var closeButton = this._greateNewElement("div", undefined, "cl-btn");
-  closeButton.addEventListener("click", function () {
-    popupWrapper.remove();
-  });
-  popupWrapper.appendChild(closeButton);
+  var popupWrapper = this._buildPopUp(this.popUpType, message);
 
   var popupBlock = document.getElementById("popup-block");
 
@@ -115,13 +82,8 @@ ToastNotifications.prototype.show = function () {
     this.container.appendChild(popupBlock);
   }
 
-  var timeout = setTimeout(function () {
-    popupWrapper.remove();
-    clearTimeout(timeout);
-  }, this.timeToShow);
+  this._runTimer(popupWrapper, timeToShow);
 };
-
-// console.dir(new ToastNotifications(main, "Error here"));
 
 function ModalWindow(container) {
   PopUp.apply(this, arguments);
@@ -152,12 +114,25 @@ ModalWindow.prototype.show = function (content) {
   this.container.appendChild(modalContainer);
 };
 
+//добавляем события на кнопки
 modalButton.addEventListener("click", function () {
   var modal = new ModalWindow(main);
   modal.show();
 });
 
 errorButton.addEventListener("click", function () {
-  var popup = new ToastNotifications(main, "Error here");
-  popup.show();
+  var popup = new ToastNotifications(main, "error");
+  popup.show("error");
+});
+warningButton.addEventListener("click", function () {
+  var popup = new ToastNotifications(main, "warning");
+  popup.show("warning 7 sec", 7000);
+});
+successButton.addEventListener("click", function () {
+  var popup = new ToastNotifications(main, "success");
+  popup.show("success");
+});
+infoButton.addEventListener("click", function () {
+  var popup = new ToastNotifications(main, "info");
+  popup.show("info");
 });

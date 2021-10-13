@@ -64,6 +64,15 @@
 .popup-wrapper.error {
 	background-color: #fa6565;
 }
+.popup-wrapper.warning {
+	background-color: #ff8a15;
+}
+.popup-wrapper.success {
+	background-color: #80fa7b;
+}
+.popup-wrapper.info {
+	background-color: #c2fdfd;
+}
 
 .icon {
 	height: 40px;
@@ -72,6 +81,15 @@
 
 .icon.error {
 	background: url('./icons/error.png')  center/cover  no-repeat ;
+}
+.icon.warning {
+	background: url('./icons/warning.png')  center/cover  no-repeat ;
+}
+.icon.success {
+	background: url('./icons/success.png')  center/cover  no-repeat ;
+}
+.icon.info {
+	background: url('./icons/information.png')  center/cover  no-repeat ;
 }
 
 
