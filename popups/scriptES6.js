@@ -27,28 +27,14 @@ class ToastNotifications extends PopUp {
   }
 
   _buildPopUp(popUpType, popUpMessage = "Something went wrong") {
-    let validPopUpType = popUpType;
-    if (
-      popUpType !== "error" &&
-      popUpType !== "warning" &&
-      popUpType !== "success"
-    ) {
-      validPopUpType = "info";
-    }
-
     const popupWrapper = this._createNewElement(
       "div",
       undefined,
       "popup-wrapper",
-      validPopUpType
+      popUpType
     );
 
-    const icon = this._createNewElement(
-      "div",
-      undefined,
-      "icon",
-      validPopUpType
-    );
+    const icon = this._createNewElement("div", undefined, "icon", popUpType);
     popupWrapper.appendChild(icon);
 
     const popup = this._createNewElement("span");
@@ -92,25 +78,37 @@ class ToastNotifications extends PopUp {
 
 class ErrorToastNotifications extends ToastNotifications {
   constructor(container) {
-    super(container, "error");
+    super(container);
+  }
+  _buildPopUp(ignorePopUpType, popUpMessage) {
+    return super._buildPopUp("error", popUpMessage);
   }
 }
 
 class WarningToastNotifications extends ToastNotifications {
   constructor(container) {
-    super(container, "warning");
+    super(container);
+  }
+  _buildPopUp(ignorePopUpType, popUpMessage) {
+    return super._buildPopUp("warning", popUpMessage);
   }
 }
 
 class SuccessToastNotifications extends ToastNotifications {
   constructor(container) {
-    super(container, "success");
+    super(container);
+  }
+  _buildPopUp(ignorePopUpType, popUpMessage) {
+    return super._buildPopUp("success", popUpMessage);
   }
 }
 
 class InfoToastNotifications extends ToastNotifications {
   constructor(container) {
-    super(container, "info");
+    super(container);
+  }
+  _buildPopUp(ignorePopUpType, popUpMessage) {
+    return super._buildPopUp("info", popUpMessage);
   }
 }
 
@@ -158,7 +156,7 @@ modalButton.addEventListener("click", () => {
 
 errorButton.addEventListener("click", () => {
   const popup = new ErrorToastNotifications(main);
-  popup.show("error awdawd dawdae dqdwqwedadawd eqweq eq dwqeq gwgwgeg");
+  popup.show("error from ES6");
 });
 warningButton.addEventListener("click", () => {
   const popup = new WarningToastNotifications(main);
