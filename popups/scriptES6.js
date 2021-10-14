@@ -90,6 +90,30 @@ class ToastNotifications extends PopUp {
   }
 }
 
+class ErrorToastNotifications extends ToastNotifications {
+  constructor(container) {
+    super(container, "error");
+  }
+}
+
+class WarningToastNotifications extends ToastNotifications {
+  constructor(container) {
+    super(container, "warning");
+  }
+}
+
+class SuccessToastNotifications extends ToastNotifications {
+  constructor(container) {
+    super(container, "success");
+  }
+}
+
+class InfoToastNotifications extends ToastNotifications {
+  constructor(container) {
+    super(container, "info");
+  }
+}
+
 class ModalWindow extends PopUp {
   constructor(container) {
     super(container);
@@ -133,18 +157,18 @@ modalButton.addEventListener("click", () => {
 });
 
 errorButton.addEventListener("click", () => {
-  const popup = new ToastNotifications(main, "error");
+  const popup = new ErrorToastNotifications(main);
   popup.show("error awdawd dawdae dqdwqwedadawd eqweq eq dwqeq gwgwgeg");
 });
 warningButton.addEventListener("click", () => {
-  const popup = new ToastNotifications(main, "warning");
+  const popup = new WarningToastNotifications(main);
   popup.show("warning 7 sec", 7000);
 });
 successButton.addEventListener("click", () => {
-  const popup = new ToastNotifications(main, "success");
+  const popup = new SuccessToastNotifications(main);
   popup.show("success");
 });
 infoButton.addEventListener("click", () => {
-  const popup = new ToastNotifications(main, "info");
+  const popup = new InfoToastNotifications(main);
   popup.show("info");
 });
