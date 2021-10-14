@@ -7,7 +7,7 @@ var modalButton = document.getElementById("modal");
 
 function PopUp(container) {
   this.container = container || document.getElementsByTagName("body")[0];
-  this._greateNewElement = function (tagName, id) {
+  this._createNewElement = function (tagName, id) {
     var newElement = document.createElement(tagName);
     if (id) {
       newElement.id = id;
@@ -35,21 +35,21 @@ ToastNotifications.prototype._buildPopUp = function (popUpType, message) {
 
   var popUpMessage = message || "Something went wrong";
 
-  var popupWrapper = this._greateNewElement(
+  var popupWrapper = this._createNewElement(
     "div",
     undefined,
     "popup-wrapper",
     validPopUpType
   );
 
-  var icon = this._greateNewElement("div", undefined, "icon", validPopUpType);
+  var icon = this._createNewElement("div", undefined, "icon", validPopUpType);
   popupWrapper.appendChild(icon);
 
-  var popup = this._greateNewElement("span");
+  var popup = this._createNewElement("span");
   popup.innerText = popUpMessage;
   popupWrapper.appendChild(popup);
 
-  var closeButton = this._greateNewElement("div", undefined, "cl-btn");
+  var closeButton = this._createNewElement("div", undefined, "cl-btn");
   closeButton.addEventListener("click", function () {
     popupWrapper.remove();
   });
@@ -75,7 +75,7 @@ ToastNotifications.prototype.show = function (message, time) {
   if (popupBlock) {
     popupBlock.appendChild(popupWrapper);
   } else {
-    popupBlock = this._greateNewElement("div", "popup-block", "popup-block");
+    popupBlock = this._createNewElement("div", "popup-block", "popup-block");
     popupBlock.id = "popup-block";
     popupBlock.className = "popup-block";
     popupBlock.appendChild(popupWrapper);
@@ -98,15 +98,20 @@ ModalWindow.prototype.show = function (content) {
       return defaultContent;
     })();
 
-  var modalContainer = document.createElement("div");
-  modalContainer.className = "modal-container";
-  var modalBackground = document.createElement("div");
-  modalBackground.className = "modal-background";
+  var modalContainer = this._createNewElement(
+    "div",
+    undefined,
+    "modal-container"
+  );
+  var modalBackground = this._createNewElement(
+    "div",
+    undefined,
+    "modal-background"
+  );
   modalBackground.addEventListener("click", function () {
     modalContainer.remove();
   });
-  var modalMain = document.createElement("div");
-  modalMain.className = "modal-main";
+  var modalMain = this._createNewElement("div", undefined, "modal-main");
 
   modalMain.appendChild(this.content);
   modalContainer.appendChild(modalMain);
