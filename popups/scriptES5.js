@@ -24,25 +24,16 @@ function ToastNotifications(container, popUpType) {
 }
 
 ToastNotifications.prototype._buildPopUp = function (popUpType, message) {
-  var validPopUpType = popUpType;
-  if (
-    popUpType !== "error" &&
-    popUpType !== "warning" &&
-    popUpType !== "success"
-  ) {
-    validPopUpType = "info";
-  }
-
   var popUpMessage = message || "Something went wrong";
 
   var popupWrapper = this._createNewElement(
     "div",
     undefined,
     "popup-wrapper",
-    validPopUpType
+    popUpType
   );
 
-  var icon = this._createNewElement("div", undefined, "icon", validPopUpType);
+  var icon = this._createNewElement("div", undefined, "icon", popUpType);
   popupWrapper.appendChild(icon);
 
   var popup = this._createNewElement("span");
@@ -87,27 +78,47 @@ ToastNotifications.prototype.show = function (message, time) {
 
 function ErrorToastNotifications(container) {
   ToastNotifications.apply(this, arguments);
-  this.popUpType = "error";
+  var parentBuildPopUp = this._buildPopUp;
+  this._buildPopUp = function (ignorePopUpType, message) {
+    return parentBuildPopUp.call(this, "error", message);
+  };
 }
-ErrorToastNotifications.prototype = ToastNotifications.prototype;
+ErrorToastNotifications.prototype = Object.create(ToastNotifications.prototype);
+ErrorToastNotifications.prototype.constructor = ToastNotifications;
 
 function WarningToastNotifications(container) {
   ToastNotifications.apply(this, arguments);
-  this.popUpType = "warning";
+  var parentBuildPopUp = this._buildPopUp;
+  this._buildPopUp = function (ignorePopUpType, message) {
+    return parentBuildPopUp.call(this, "warning", message);
+  };
 }
-WarningToastNotifications.prototype = ToastNotifications.prototype;
+WarningToastNotifications.prototype = Object.create(
+  ToastNotifications.prototype
+);
+WarningToastNotifications.prototype.constructor = ToastNotifications;
 
 function SuccessToastNotifications(container) {
   ToastNotifications.apply(this, arguments);
-  this.popUpType = "success";
+  var parentBuildPopUp = this._buildPopUp;
+  this._buildPopUp = function (ignorePopUpType, message) {
+    return parentBuildPopUp.call(this, "success", message);
+  };
 }
-SuccessToastNotifications.prototype = ToastNotifications.prototype;
+SuccessToastNotifications.prototype = Object.create(
+  ToastNotifications.prototype
+);
+SuccessToastNotifications.prototype.constructor = ToastNotifications;
 
 function InfoToastNotifications(container) {
   ToastNotifications.apply(this, arguments);
-  this.popUpType = "info";
+  var parentBuildPopUp = this._buildPopUp;
+  this._buildPopUp = function (ignorePopUpType, message) {
+    return parentBuildPopUp.call(this, "info", message);
+  };
 }
-InfoToastNotifications.prototype = ToastNotifications.prototype;
+InfoToastNotifications.prototype = Object.create(ToastNotifications.prototype);
+InfoToastNotifications.prototype.constructor = ToastNotifications;
 
 function ModalWindow(container) {
   PopUp.apply(this, arguments);
