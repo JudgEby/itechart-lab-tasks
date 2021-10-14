@@ -85,6 +85,30 @@ ToastNotifications.prototype.show = function (message, time) {
   this._runTimer(popupWrapper, timeToShow);
 };
 
+function ErrorToastNotifications(container) {
+  ToastNotifications.apply(this, arguments);
+  this.popUpType = "error";
+}
+ErrorToastNotifications.prototype = ToastNotifications.prototype;
+
+function WarningToastNotifications(container) {
+  ToastNotifications.apply(this, arguments);
+  this.popUpType = "warning";
+}
+WarningToastNotifications.prototype = ToastNotifications.prototype;
+
+function SuccessToastNotifications(container) {
+  ToastNotifications.apply(this, arguments);
+  this.popUpType = "success";
+}
+SuccessToastNotifications.prototype = ToastNotifications.prototype;
+
+function InfoToastNotifications(container) {
+  ToastNotifications.apply(this, arguments);
+  this.popUpType = "info";
+}
+InfoToastNotifications.prototype = ToastNotifications.prototype;
+
 function ModalWindow(container) {
   PopUp.apply(this, arguments);
   this.content = null;
@@ -126,18 +150,18 @@ modalButton.addEventListener("click", function () {
 });
 
 errorButton.addEventListener("click", function () {
-  var popup = new ToastNotifications(main, "error");
+  var popup = new ErrorToastNotifications(main);
   popup.show("error awdawd dawdae dqdwqwedadawd eqweq eq dwqeq gwgwgeg");
 });
 warningButton.addEventListener("click", function () {
-  var popup = new ToastNotifications(main, "warning");
+  var popup = new WarningToastNotifications(main);
   popup.show("warning 7 sec", 7000);
 });
 successButton.addEventListener("click", function () {
-  var popup = new ToastNotifications(main, "success");
+  var popup = new SuccessToastNotifications(main);
   popup.show("success");
 });
 infoButton.addEventListener("click", function () {
-  var popup = new ToastNotifications(main, "info");
+  var popup = new InfoToastNotifications(main);
   popup.show("info");
 });
