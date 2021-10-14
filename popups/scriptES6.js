@@ -1,33 +1,33 @@
-var main = document.getElementById("main");
-var errorButton = document.getElementById("error");
-var warningButton = document.getElementById("warning");
-var successButton = document.getElementById("success");
-var infoButton = document.getElementById("info");
-var modalButton = document.getElementById("modal");
+const main = document.querySelector("#main");
+const errorButton = document.querySelector("#error");
+const warningButton = document.querySelector("#warning");
+const successButton = document.querySelector("#success");
+const infoButton = document.querySelector("#info");
+const modalButton = document.querySelector("#modal");
 
 class PopUp {
-  constructor(container) {
-    this.container = container || document.getElementsByTagName("body")[0];
+  constructor(container = document.querySelector("body")) {
+    this.container = container;
   }
   _createNewElement(tagName, id) {
-    var newElement = document.createElement(tagName);
+    let newElement = document.createElement(tagName);
     if (id) {
       newElement.id = id;
     }
 
-    newElement.className = [].slice.call(arguments).slice(2).join(" ");
+    newElement.className = [...arguments].join(" ");
     return newElement;
   }
 }
 
 class ToastNotifications extends PopUp {
-  constructor(container, popUpType) {
+  constructor(container, popUpType = "info") {
     super(container);
     this.popUpType = popUpType;
   }
 
-  _buildPopUp(popUpType, message) {
-    var validPopUpType = popUpType;
+  _buildPopUp(popUpType, popUpMessage = "Something went wrong") {
+    let validPopUpType = popUpType;
     if (
       popUpType !== "error" &&
       popUpType !== "warning" &&
@@ -36,23 +36,26 @@ class ToastNotifications extends PopUp {
       validPopUpType = "info";
     }
 
-    var popUpMessage = message || "Something went wrong";
-
-    var popupWrapper = this._createNewElement(
+    const popupWrapper = this._createNewElement(
       "div",
       undefined,
       "popup-wrapper",
       validPopUpType
     );
 
-    var icon = this._createNewElement("div", undefined, "icon", validPopUpType);
+    const icon = this._createNewElement(
+      "div",
+      undefined,
+      "icon",
+      validPopUpType
+    );
     popupWrapper.appendChild(icon);
 
-    var popup = this._createNewElement("span");
+    const popup = this._createNewElement("span");
     popup.innerText = popUpMessage;
     popupWrapper.appendChild(popup);
 
-    var closeButton = this._createNewElement("div", undefined, "cl-btn");
+    const closeButton = this._createNewElement("div", undefined, "cl-btn");
     closeButton.addEventListener("click", function () {
       popupWrapper.remove();
     });
@@ -62,18 +65,16 @@ class ToastNotifications extends PopUp {
   }
 
   _runTimer(popUpNode, timeToShow) {
-    var timeout = setTimeout(function () {
+    const timeout = setTimeout(function () {
       popUpNode.remove();
       clearTimeout(timeout);
     }, timeToShow);
   }
 
-  show(message, time) {
-    var timeToShow = time || 5000;
+  show(message, timeToShow = 5000) {
+    const popupWrapper = this._buildPopUp(this.popUpType, message);
 
-    var popupWrapper = this._buildPopUp(this.popUpType, message);
-
-    var popupBlock = document.getElementById("popup-block");
+    let popupBlock = document.getElementById("popup-block");
 
     if (popupBlock) {
       popupBlock.appendChild(popupWrapper);
@@ -98,25 +99,25 @@ class ModalWindow extends PopUp {
     this.content =
       content ||
       (function () {
-        var defaultContent = document.createElement("div");
+        const defaultContent = document.createElement("div");
         defaultContent.innerText = "Modal";
         return defaultContent;
       })();
 
-    var modalContainer = this._createNewElement(
+    const modalContainer = this._createNewElement(
       "div",
       undefined,
       "modal-container"
     );
-    var modalBackground = this._createNewElement(
+    const modalBackground = this._createNewElement(
       "div",
       undefined,
       "modal-background"
     );
-    modalBackground.addEventListener("click", function () {
+    modalBackground.addEventListener("click", () => {
       modalContainer.remove();
     });
-    var modalMain = this._createNewElement("div", undefined, "modal-main");
+    const modalMain = this._createNewElement("div", undefined, "modal-main");
 
     modalMain.appendChild(this.content);
     modalContainer.appendChild(modalMain);
@@ -126,24 +127,24 @@ class ModalWindow extends PopUp {
 }
 
 //добавляем события на кнопки
-modalButton.addEventListener("click", function () {
-  var modal = new ModalWindow(main);
+modalButton.addEventListener("click", () => {
+  const modal = new ModalWindow(main);
   modal.show();
 });
 
-errorButton.addEventListener("click", function () {
-  var popup = new ToastNotifications(main, "error");
+errorButton.addEventListener("click", () => {
+  const popup = new ToastNotifications(main, "error");
   popup.show("error awdawd dawdae dqdwqwedadawd eqweq eq dwqeq gwgwgeg");
 });
-warningButton.addEventListener("click", function () {
-  var popup = new ToastNotifications(main, "warning");
+warningButton.addEventListener("click", () => {
+  const popup = new ToastNotifications(main, "warning");
   popup.show("warning 7 sec", 7000);
 });
-successButton.addEventListener("click", function () {
-  var popup = new ToastNotifications(main, "success");
+successButton.addEventListener("click", () => {
+  const popup = new ToastNotifications(main, "success");
   popup.show("success");
 });
-infoButton.addEventListener("click", function () {
-  var popup = new ToastNotifications(main, "info");
+infoButton.addEventListener("click", () => {
+  const popup = new ToastNotifications(main, "info");
   popup.show("info");
 });
