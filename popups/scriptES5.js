@@ -122,7 +122,7 @@ modalButton.addEventListener("click", function () {
 
 errorButton.addEventListener("click", function () {
   var popup = new ToastNotifications(main, "error");
-  popup.show("error");
+  popup.show("error awdawd dawdae dqdwqwedadawd eqweq eq dwqeq gwgwgeg");
 });
 warningButton.addEventListener("click", function () {
   var popup = new ToastNotifications(main, "warning");

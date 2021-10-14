@@ -1,6 +1,6 @@
 .cl-btn {
-	width: 40px;
-	height: 40px;
+	min-width: 40px;
+	min-height: 40px;
 	border-radius: 40px;
 	position: relative;
 	z-index: 1;
@@ -47,7 +47,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-end;
 }
 
 .popup-wrapper {
@@ -58,7 +58,7 @@
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
-	width: 200px;
+	min-width: 200px;
 }
 
 .popup-wrapper.error {
@@ -76,7 +76,7 @@
 
 .icon {
 	height: 40px;
-	width: 40px;
+	min-width: 40px;
 }
 
 .icon.error {
